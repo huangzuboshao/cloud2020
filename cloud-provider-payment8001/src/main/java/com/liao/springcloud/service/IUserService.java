@@ -1,6 +1,7 @@
 package com.liao.springcloud.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.liao.springcloud.dto.UserDTO;
 import com.liao.springcloud.entity.User;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
  * @date 2020/5/8 17:23
  */
 public interface IUserService extends IService<User> {
-    List<User> listUsers();
+    List<UserDTO> listUsers();
 
-    int create(User user);
+    int create(UserDTO userDTO);
 }

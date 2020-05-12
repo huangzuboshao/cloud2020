@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: eureka-server
+  profiles:
+    active: 7001
+
+eureka:
+  server:
+    #关闭自我保护，保证不可用服务及时踢出
+    enable-self-preservation: false
+    #踢出时间间隔
+    eviction-interval-timer-in-ms: 10000

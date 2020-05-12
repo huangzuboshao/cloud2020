@@ -1,5 +1,5 @@
 server:
-  port: 8001
+  port: 8002
 
 spring:
   datasource:
@@ -17,6 +17,6 @@ eureka:
     register-with-eureka: true
   instance:
     #主机名:服务名称的修改
-    instance-id: payment8001
+    instance-id: payment8002
     #访问路径显示ip地址
     prefer-ip-address: true

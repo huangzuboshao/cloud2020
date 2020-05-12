@@ -1,6 +1,3 @@
-server:
-  port: 8001
-
 spring:
   application:
     name: cloud-payment-service
@@ -11,3 +8,10 @@ spring:
 mybatis-plus:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.liao.springcloud.entity
+
+eureka:
+  instance:
+    #eureka客户端向服务端发送心跳的时间间隔,单位(秒),默认30s
+    lease-renewal-interval-in-seconds: 1
+    #eureka服务端在收到最后一次心跳后等待时间上限,单位(秒),默认90s.超时将踢出服务
+    lease-expiration-duration-in-seconds: 2

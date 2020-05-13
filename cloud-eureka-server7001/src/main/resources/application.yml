@@ -8,5 +8,5 @@ eureka:
   server:
     #关闭自我保护，保证不可用服务及时踢出
     enable-self-preservation: false
-    #踢出时间间隔
+    #清理无效节点的时间间隔
     eviction-interval-timer-in-ms: 10000

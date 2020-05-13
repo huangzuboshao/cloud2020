@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cloud-payment-service
+    name: cloud-provider-payment
   profiles:
     active: dev
 
@@ -15,3 +15,7 @@ eureka:
     lease-renewal-interval-in-seconds: 1
     #eureka服务端在收到最后一次心跳后等待时间上限,单位(秒),默认90s.超时将踢出服务
     lease-expiration-duration-in-seconds: 2
+  client:
+    healthcheck:
+      #开启健康检查（依赖spring-boot-starter-actuator）
+      enabled: true

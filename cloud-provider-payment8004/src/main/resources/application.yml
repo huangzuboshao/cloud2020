@@ -1,0 +1,9 @@
+server:
+  port: 8004
+spring:
+  application:
+    name: cloud-provider-payment
+  cloud:
+    zookeeper:
+      #注册zk到注册中心别称
+      connect-string: 192.168.0.111:2181

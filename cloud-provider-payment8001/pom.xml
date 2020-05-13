@@ -11,7 +11,7 @@
 
     <artifactId>cloud-provider-payment8001</artifactId>
 
-    <name> eureka 形式 </name>
+    <name> eureka 形式--服务端</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework.cloud</groupId>

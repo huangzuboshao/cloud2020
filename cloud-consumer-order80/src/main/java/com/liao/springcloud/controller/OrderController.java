@@ -27,7 +27,7 @@ public class OrderController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final String PAYMENT_SERVICE = "http://CLOUD-PAYMENT-SERVICE";
+    private static final String PAYMENT_SERVICE = "http://EUREKA-PROVIDER-PAYMENT";
 
     @GetMapping("")
     public CommonResultVO listOrders() {

@@ -1,6 +1,6 @@
 spring:
   application:
-    name: cloud-provider-payment
+    name: eureka-provider-payment
   profiles:
     active: dev
 

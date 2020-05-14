@@ -22,7 +22,8 @@ public enum ResultStatusEnum {
      * 成功状态码
      */
     SUCCESS("00000", "成功"),
-    PARAM_IS_INVALID("A01xx", "参数错误");
+    PARAM_IS_INVALID("A01xx", "参数错误"),
+    ERROR("C0000","调用错误");
 
     /**
      * 状态码

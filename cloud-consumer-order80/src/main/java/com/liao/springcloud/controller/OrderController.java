@@ -1,9 +1,11 @@
 package com.liao.springcloud.controller;
 
+import com.liao.springcloud.constant.ResultStatusEnum;
 import com.liao.springcloud.vo.CommonResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +29,7 @@ public class OrderController {
     @Autowired
     private DiscoveryClient discoveryClient;
 
-    private static final String PAYMENT_SERVICE = "http://EUREKA-PROVIDER-PAYMENT";
+    private static final String PAYMENT_SERVICE = "http://PROVIDER-PAYMENT-SERVICE";
 
     @GetMapping("")
     public CommonResultVO listOrders() {
@@ -44,6 +46,16 @@ public class OrderController {
         List<ServiceInstance> instanceList = discoveryClient.getInstances("CLOUD-ORDER-SERVICE");
         instanceList.forEach(t -> System.out.println(t.getServiceId() + "\t" + t.getHost() + "\t" + t.getPort() + "\t" + t.getUri()));
         return discoveryClient;
+    }
+
+    @GetMapping("/getForEntity/{id}")
+    public CommonResultVO getOrderForEntity(@PathVariable Integer id) {
+        ResponseEntity<CommonResultVO> entity = restTemplate.getForEntity(PAYMENT_SERVICE + "/api/users/" + id, CommonResultVO.class);
+        if (entity.getStatusCode().is2xxSuccessful()) {
+            return entity.getBody();
+        }else{
+            return CommonResultVO.failure(ResultStatusEnum.ERROR);
+        }
     }
 
 }

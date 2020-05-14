@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * TODO..
@@ -46,5 +47,15 @@ public class UserController {
     public CommonResultVO createUser(UserDTO userDTO) {
         int result = userService.create(userDTO);
         return CommonResultVO.success(result);
+    }
+
+    @GetMapping("/feign/timeout")
+    public String testTimeOut() {
+        try {
+            TimeUnit.SECONDS.sleep(3);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return serverPort;
     }
 }

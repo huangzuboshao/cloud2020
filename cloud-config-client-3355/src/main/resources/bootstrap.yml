@@ -1,0 +1,30 @@
+server:
+  port: 3355
+
+spring:
+  application:
+    name: cloud-config-client
+  cloud:
+    config:
+      #uri: http://localhost:3344
+      label: master
+      name: config
+      profile: dev
+      discovery:
+        service-id: CONFIG-SERVER
+        enabled: true
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka7001.com:7001/eureka,http://eureka7002.com:7002/eureka
+  instance:
+    prefer-ip-address: true
+
+#management:
+#  endpoints:
+#    web:
+#      exposure:
+#        include: '*'

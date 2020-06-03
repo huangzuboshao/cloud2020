@@ -23,6 +23,17 @@ PROVIDER-PAYMENT-SERVICE:#调用的服务
     NFLoadBalancerRuleClassName: IRule实现或者自定义负载均衡算法
     #修改Feign调用超时(单位:s)
     ConnectTimeout:
+    
+
+格式如下
+<clientName>:
+  ribbon:
+    NFLoadBalancerClassName: 配置ILoadBalancer的实现类
+    NFLoadBalancerRuleClassName: 配置IRule的实现类
+    NFLoadBalancerPingClassName: 配置IPing的实现类
+    NFWSServerListClassName: 配置ServerList的实现类
+    NIWSServerListFilterClassName: 配置ServerListFilter的实现类
+
 ```
 
 ## 3.OpenFeign
@@ -98,6 +109,16 @@ PROVIDER-PAYMENT-SERVICE:#调用的服务
 集成服务发现功能
 限流;路径重写
 
+性能：API高可用，负载均衡，容错机制。
+安全：权限身份认证、脱敏，流量清洗，后端签名（保证全链路可信调用）,黑名单（非法调用的限制）。
+日志：日志记录（spainid,traceid）一旦涉及分布式，全链路跟踪必不可少。
+缓存：数据缓存。
+监控：记录请求响应数据，api耗时分析，性能监控。
+限流：流量控制，错峰流控，目前有漏桶算法、令牌桶算法也可以定制限流规则。
+灰度：线上灰度部署，可以减小风险。
+路由：动态路由规则。
+静态：代理
+
 cloud  F版之前推荐的Zuul  ;对比
 zuul1.x：servlet2.5阻塞架构
 gateway：基于netty非阻塞 webflux Reactive
@@ -141,7 +162,7 @@ spring:
 自定义过滤器:  implements GlobalFilter,Ordered    implements GatewayFilter,Ordered
 ```
 
-# 6.config
+# 6.config + bus
 ```
 1.config+bus
 2.springcloud alibaba nacos
@@ -149,4 +170,30 @@ spring:
 
 boostrap.yml--系统级 --比application.yml 优先级高
 boostrap Context [从外部加载配置属性并解析配置]作为Application Context的父上下文。。共享一个从外部获取的Environment
+
+
+spring-cloud-starter-config
+eg:
+#暴露bus刷新配置端点
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+        
+[config_client]:[port]/actuator/refresh
+
+或者
+spring-cloud-config-server
+spring-cloud-starter-bus-amqp
+curl -X POST [config_server]:[port]/actuator/bus-refresh  全局通知
+curl -X POST [config_server]:[port]/actuator/bus-refresh/{destination} 定点通知。其中destination  客户端:port
+```
+# 7.cloud stream
+！[cloud Stream 模型](https://github.com/huangzuboshao/cloud2020/blob/master/stream.png)
+```
+屏蔽底层消息中间件的差异，降低切换成本，统一消息模型
+
+
+
 ```

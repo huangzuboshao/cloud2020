@@ -4,7 +4,10 @@ server:
 spring:
   application:
     name: gateway-service
-  cloud:
+#  cloud:
+#    loadbalancer:
+#      ribbon:
+#        enabled: false
     gateway:
       discovery:
         locator:
@@ -24,6 +27,17 @@ spring:
 #          - Path=/s
 #          - Query=wd
 #          - Between=2020-06-03T11:55:42.383+08:00[GMT+08:00],2020-06-03T11:57:12.383+08:00[GMT+08:00]
+        filters:
+          - StripPrefix=1
+provider-payment-service:
+  ribbon:
+    listOfServer: 192.168.0.104:8001, 192.168.0.104:8002
+    #负载算法
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RoundRobinRule
+    #health检查若宕机，及时剔除掉不可用
+    NFLoadBalancerPingClassName: com.liao.springcloud.loadbanlance.HealthExamination
+    NFLoadBalancerPingInterval: 2
+
 eureka:
   instance:
     prefer-ip-address: true

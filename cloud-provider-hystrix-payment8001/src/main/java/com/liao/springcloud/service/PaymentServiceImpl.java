@@ -24,9 +24,9 @@ public class PaymentServiceImpl {
         return "线程池：" + Thread.currentThread().getName() + "成功";
     }
 
-    /*@HystrixCommand(fallbackMethod = "paymentInfoFailHandler", commandProperties = {
+    @HystrixCommand(fallbackMethod = "paymentInfoFailHandler", commandProperties = {
             @HystrixProperty(name = HystrixPropertiesManager.EXECUTION_ISOLATION_THREAD_TIMEOUT_IN_MILLISECONDS, value = "3000")
-    })*/
+    })
     public String paymentInfoFailure(Integer id) {
         int timeNumber = 4;
         int a = 10 / 0;

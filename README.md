@@ -87,3 +87,39 @@ PROVIDER-PAYMENT-SERVICE:#调用的服务
         return registrationBean;
     }
 ```
+
+# 5.cloud-gateway:  路由转发+执行过滤链
+```
+反向代理，鉴权，流量控制，熔断，日志监控...
+
+动态路由:匹配任何请求属性
+可以对路由指定Predicate(断言)和filter过滤器，易于编写
+集成hystrix断路器
+集成服务发现功能
+限流;路径重写
+
+cloud  F版之前推荐的Zuul  ;对比
+zuul1.x：servlet2.5阻塞架构
+gateway：基于netty非阻塞 webflux Reactive
+  代理请求之前pre和之后post
+    Pre: 参数校验 权限校验 流量监控  日志输出 协议转换等
+    post: 响应内容 响应头修改 日志的输出 流量监控 等
+
+
+RoutePredicateFactory:19种动态路由匹配断言工厂 --After==可用于提前上线约定ZoneDateTime.now()的一个时间
+url: [spring-cloud gateway](https://cloud.spring.io/spring-cloud-static/spring-cloud-gateway/2.2.2.RELEASE/reference/html/#gateway-request-predicates-factories
+)
+
+
+自定义过滤器:  implements GlobalFilter,Ordered
+```
+
+# 6.config
+```
+1.config+bus
+2.springcloud alibaba nacos
+3.携程apllo
+
+boostrap.yml--系统级 --比application.yml 优先级高
+boostrap Context [从外部加载配置属性并解析配置]作为Application Context的父上下文。。共享一个从外部获取的Environment
+```

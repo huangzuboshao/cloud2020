@@ -110,8 +110,35 @@ RoutePredicateFactory:19种动态路由匹配断言工厂 --After==可用于提�
 url: [spring-cloud gateway](https://cloud.spring.io/spring-cloud-static/spring-cloud-gateway/2.2.2.RELEASE/reference/html/#gateway-request-predicates-factories
 )
 
+参考 ErrorWebExceptionHandler和ErrorWebFluxAutoConfiguration 配置自定义错误页面
+           自定义路由过滤  GatewayFilter 全局过滤 GlobalFilter
+           常见11中路由断言工厂
+spring:
+  cloud:
+    gateway:
+      routes:
+      - id: path_route
+        uri: http://www.xinyues.com
+        predicates:
+        - Path=/foo/{segment},/bar/{segment}
+        - Query=foo, ba.
+        - Method=GET
+        # 时区格式由ZonedDateTime生成
+        - Between=Between=2020-06-03T10:44:42.383+08:00[GMT+08:00],2020-06-03T10:46:12.383+08:00[GMT+08:00]
+        ...
+        
+        或
+        
+   @Bean
+   public RouteLocator customRouteLocator(RouteLocatorBuilder builder) {
+      return builder.routes()
+            .route("host_route", r -> r.host("peer1:8080")
+                  .uri("http://jd.com"))
+            .build();
+   }
 
-自定义过滤器:  implements GlobalFilter,Ordered
+
+自定义过滤器:  implements GlobalFilter,Ordered    implements GatewayFilter,Ordered
 ```
 
 # 6.config

@@ -22,10 +22,9 @@ public class GatewayConfig {
     @Bean
     public RouteLocator customerRouteLocator(RouteLocatorBuilder builder) {
         return builder.routes()
-                .route(r -> r.path("/api/users/**")
+                .route("customer_filter_router",r -> r.path("/api/users/**")
                         .filters(f -> f.filter(authSignatureFilter()))
                         .uri("lb://provider-payment-service")
-                        .id("customer_filter_router")
                         .order(0)
                 )
                 .build();

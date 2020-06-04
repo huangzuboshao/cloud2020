@@ -274,3 +274,20 @@ spring:
           binder: defaultRabbit #设置要绑定的消息服务的具体设置
 
 ```
+
+# 8 zipkin 
+
+```
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-zipkin</artifactId>
+</dependency>
+
+spring:
+  zipkin:
+    base-url: http://localhost:9411/
+  sleuth:
+    sampler:
+      probability: 1
+
+```

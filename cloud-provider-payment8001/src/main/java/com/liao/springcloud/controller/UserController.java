@@ -58,4 +58,9 @@ public class UserController {
         }
         return serverPort;
     }
+
+    @GetMapping("/zipkin/test")
+    public String testZipkinSleuth() {
+        return "testZipkinSleuth " + serverPort;
+    }
 }

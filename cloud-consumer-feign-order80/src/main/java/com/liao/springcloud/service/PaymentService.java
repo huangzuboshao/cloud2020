@@ -22,4 +22,7 @@ public interface PaymentService {
 
     @GetMapping("/api/users/feign/timeout")
     String testTimeOut();
+
+    @GetMapping("/api/users/zipkin/test")
+    String testZipkin();
 }

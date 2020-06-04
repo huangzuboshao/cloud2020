@@ -34,4 +34,10 @@ public class OrderController {
         //默认OpenFeign等待1s
         return paymentService.testTimeOut();
     }
+
+    @GetMapping("/test_zipkin")
+    public String testZipkin() {
+        //默认OpenFeign等待1s
+        return paymentService.testZipkin();
+    }
 }

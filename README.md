@@ -189,11 +189,88 @@ spring-cloud-starter-bus-amqp
 curl -X POST [config_server]:[port]/actuator/bus-refresh  全局通知
 curl -X POST [config_server]:[port]/actuator/bus-refresh/{destination} 定点通知。其中destination  客户端:port
 ```
-# 7.cloud stream
+# 7.cloud stream  -- 遵循发布-订阅模式
 ！[cloud Stream 模型](https://github.com/huangzuboshao/cloud2020/blob/master/stream.png)
 ```
 屏蔽底层消息中间件的差异，降低切换成本，统一消息模型
 
+消息通道MessageChannel子接口SubscribableChannel 由MessageHandler消息处理器订阅
 
+topic主题广播----RabbitMq 就是Exchange  kafka 中对应topic 和partion 分区
+
+
+@Input   输入信道,通过输入信道进入应用程序
+@Output  输出信道,通过输出信道离开应用程序
+@StreamListener  监听队列，用于消费者队列的消息接收
+@EnableBinding 信道channel 和exchange绑定在一起
+
+
+
+消息生产者:
+    source->channel->Binder
+                        |
+               MQ组件(rabbitmq,kafka)
+消息消费者               |
+    sink<-channel<- Binder
+
+
+生产者:
+@EnableBinding(Source.class)
+public class MessageProviderImpl implements IMessageProvider {
+
+    /**
+     * 消息发送管道
+     */
+    @Autowired
+    private MessageChannel output;
+
+    @Override
+    public String send() {
+        String serial = UUID.randomUUID().toString();
+        output.send(MessageBuilder.withPayload(serial).build());
+        return serial;
+    }    
+}
+
+消费者：
+@EnableBinding(Sink.class)
+@Component
+public class MessageReceiver {
+
+    @StreamListener(Sink.INPUT)
+    public void receive(Message<String> message) {
+        System.out.println("消费者1号,serverPort>>>" + message.getPayload());
+    }
+}
+    
+    
+如果订单集群，会出现重复即一个订单被两个服务拿到，怎么持久化呢？
+答: stream分组 group
+
+stream中，同一个group中的多个消费者是竞争关系，能够保证消息只被其中一个应用消费一次
+不同组可以全面消费(重复)
+
+exchange下 bindings中默认生成多个queue绑定的这个exchange,成了不同queue,形成重复消费;自定义配置分为一组，解决重复消费
+
+spring:
+  application:
+    name: cloud-stream-consumer-service
+  cloud:
+    stream:
+      binders: #配置要绑定的rabbitmq的服务信息
+        defaultRabbit: #定义的名称,用于binding整合,[自定义]
+          type: rabbit #消息组件类型
+          enviroment:
+            rabbitmq:
+              host: localhost
+              port: 5672
+              username: guest
+              password: guest
+      bindings: #服务的整合处理
+        input: #通道名称,[自定义]
+          destination: ownerExchange #要使用的exchange名称
+          group: A #解决重复消费，分为同一组 Queue【ownerExchange.A】 N个consumers
+          contentType: application/json
+          binder: defaultRabbit #设置要绑定的消息服务的具体设置
 
 ```

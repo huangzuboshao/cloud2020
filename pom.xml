@@ -26,6 +26,9 @@
         <module>cloud-gateway9527</module>
         <module>cloud-config-3344</module>
         <module>cloud-config-client-3355</module>
+        <module>cloud-stream-rabbitmq-provider8801</module>
+        <module>cloud-stream-rabbitmq-consumer8901</module>
+        <module>cloud-stream-rabbitmq-consumer8902</module>
     </modules>
 
     <!--统一管理jar包版本-->
